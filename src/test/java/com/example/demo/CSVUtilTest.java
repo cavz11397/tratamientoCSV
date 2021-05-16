@@ -1,14 +1,27 @@
 package com.example.demo;
 
+import com.example.demo.controller.PlayerListController;
+import com.example.demo.inter.PlayerReactiveRepository;
 import com.example.demo.model.Player;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SpringBootTest
 public class CSVUtilTest {
+
+    @Autowired
+    PlayerReactiveRepository playerReactiveRepository;
 
     @Test
     void converterData(){
@@ -56,6 +69,10 @@ public class CSVUtilTest {
         assert listFilter.block().size() == 322;
     }
 
-
-
+    @Test
+    void prueba(){
+        Flux<Player> list = playerReactiveRepository.findAll();
+        var tamanio = list.count();
+        assert tamanio.block() == 18207;
+    }
 }
