@@ -20,8 +20,14 @@ public class PlayerListController {
     @GetMapping("/list-players-reactive")
     public String listUsersReactive(Model model)
     {
-        Flux<Player> userFlux = playerReactiveRepository.findAll().delayElements(Duration.ofSeconds(1));
+        Flux<Player> userFlux = playerReactiveRepository.findAll();
         model.addAttribute("players", new ReactiveDataDriverContextVariable(userFlux, 1));
         return "players";
+    }
+
+    @GetMapping("/players")
+    public Flux<Player> listUsersReactiveadsadg(Model model)
+    {
+       return playerReactiveRepository.findAll();
     }
 }
